@@ -1,10 +1,14 @@
 import fastify from 'fastify'
+import { memoriesRoutes } from './routes/memories'
+import cors from '@fastify/cors'
 
 const app = fastify()
 
-app.post('/hello', () => {
-  return 'Hellow World!'
+app.register(cors, {
+  origin: true, // todas UELs de front-end poderão acessar mpssp back-end
 })
+
+app.register(memoriesRoutes)
 
 app
   .listen({

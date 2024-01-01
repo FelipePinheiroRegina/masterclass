@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// DECLARAÇÃO DA TABELA
+model User {
+  id        String   @id @default(uuid())
+  githubId  Int      @unique
+  nome      String
+  login     String
+  avatarUrl String
+  
+  Memories    Memory[] // apenas para o prisma saber que existe relacionamento. Um usuario pode ter varias memorias
+}
+
+// No prisma, por ele lidar com diversos tipos de SGBD, o comando para criar uma tabela é model(uma generalização)
+// @id é uma forma de falar que esse campo é minha primary key
+// @default(uuid()) é uma forma de gerar ids unicos global
+// @unique, não pode ter dois ids iguais do github
+
+model Memory {
+  id     String   @id @default(uuid())
+  userId String
+  
+  coverUrl  String
+  content   String
+  isPublic  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id]) // apenas para o prisma saber que existe relacionamento
+  
+}
