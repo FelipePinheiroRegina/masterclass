@@ -1,2 +1,2 @@
 # masterclass
- Avançando meu estudos em node
+ Avançando meus estudos em node
